@@ -29,9 +29,9 @@ $('document').ready(function() {
 	function addLabel() {
 		require(['components'], function(components) {
 			if ($('.topic-unsolved').length) {
-				components.get('post/header').prepend('<span class="unanswered"><i class="fa fa-question-circle"></i> Unsolved</span>');
+				components.get('post/header').prepend('<span class="unanswered"><i class="fa fa-question-circle"></i> 未解决</span>');
 			} else if ($('.topic-solved').length) {
-				components.get('post/header').prepend('<span class="answered"><i class="fa fa-question-circle"></i> Solved</span>');
+				components.get('post/header').prepend('<span class="answered"><i class="fa fa-check-circle"></i> 已解决</span>');
 			}
 		});
 	}
@@ -43,7 +43,7 @@ $('document').ready(function() {
 
 	function callToggleQuestion(tid) {
 		socket.emit('plugins.QandA.toggleQuestionStatus', {tid: tid}, function(err, data) {
-			app.alertSuccess(data.isQuestion ? 'Topic has been marked as a question' : 'Topic is now a regular thread');
+			app.alertSuccess(data.isQuestion ? '已标记此主题为提问' : '已恢复为普通主题');
 			ajaxify.refresh();
 		});
 	}
@@ -51,7 +51,7 @@ $('document').ready(function() {
 	function toggleSolved() {
 		var tid = ajaxify.variables.get('topic_id');
 		socket.emit('plugins.QandA.toggleSolved', {tid: tid}, function(err, data) {
-			app.alertSuccess(data.isSolved ? 'Topic has been marked as solved' : 'Topic has been marked as unsolved');
+			app.alertSuccess(data.isSolved ? '已标记此提问为已解决' : '已标记此提问为未解决');
 			ajaxify.refresh();
 		});
 	}

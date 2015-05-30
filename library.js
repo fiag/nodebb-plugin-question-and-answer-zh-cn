@@ -51,9 +51,9 @@ plugin.getTopics = function(data, callback) {
 	async.map(topics, function(topic, next) {
 		if (parseInt(topic.isQuestion, 10)) {
 			if (parseInt(topic.isSolved, 10)) {
-				topic.title = '<span class="answered"><i class="fa fa-question-circle"></i> Solved</span> ' + topic.title;
+				topic.title = '<span class="answered"><i class="fa fa-check-circle"></i> 已解决</span> ' + topic.title;
 			} else {
-				topic.title = '<span class="unanswered"><i class="fa fa-question-circle"></i> Unsolved</span> ' + topic.title;
+				topic.title = '<span class="unanswered"><i class="fa fa-question-circle"></i> 未解决</span> ' + topic.title;
 			}
 		}
 		
@@ -70,19 +70,19 @@ plugin.addThreadTool = function(data, callback) {
 		data.tools = data.tools.concat([
 			{
 				class: 'toggleSolved ' + (isSolved ? 'alert-warning topic-solved' : 'alert-success topic-unsolved'),
-				title: isSolved ? 'Mark as Unsolved' : 'Mark as Solved',
+				title: isSolved ? '标为未解决' : '标为已解决',
 				icon: isSolved ? 'fa-question-circle' : 'fa-check-circle'
 			},
 			{
 				class: 'toggleQuestionStatus',
-				title: 'Make this a normal topic',
+				title: '取消标为提问',
 				icon: 'fa-comments'
 			}
 		]);	
 	} else {
 		data.tools.push({
 			class: 'toggleQuestionStatus alert-warning',
-			title: 'Ask as question',
+			title: '标为提问',
 			icon: 'fa-question-circle'
 		});
 	}
