@@ -11,7 +11,7 @@ $('document').ready(function() {
 	});
 
 	$(window).on('action:composer.loaded', function(err, data) {
-		var item = $('<li><a href="#" data-switch-action="post"><i class="fa fa-fw fa-question-circle"></i> Ask as Question</a></li>');
+		var item = $('<li><a href="#" data-switch-action="post"><i class="fa fa-fw fa-question-circle"></i> 提问</a></li>');
 		$('#cmp-uuid-' + data.post_uuid + ' .action-bar .dropdown-menu').append(item);
 
 		item.on('click', function() {

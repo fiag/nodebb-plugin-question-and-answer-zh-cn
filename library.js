@@ -75,7 +75,7 @@ plugin.addThreadTool = function(data, callback) {
 			},
 			{
 				class: 'toggleQuestionStatus',
-				title: '取消标为提问',
+				title: '取消提问标记',
 				icon: 'fa-comments'
 			}
 		]);	
