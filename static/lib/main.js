@@ -11,6 +11,11 @@ $('document').ready(function() {
 	});
 
 	$(window).on('action:composer.loaded', function(err, data) {
+		if (data.hasOwnProperty('composerData') && !data.composerData.isMain) {
+			// Do nothing, as this is a reply, not a new post
+			return;
+		}
+
 		var item = $('<li><a href="#" data-switch-action="post"><i class="fa fa-fw fa-question-circle"></i> 提问</a></li>');
 		$('#cmp-uuid-' + data.post_uuid + ' .action-bar .dropdown-menu').append(item);
 
@@ -19,6 +24,13 @@ $('document').ready(function() {
 				callToggleQuestion(data.data.tid);
 			});
 		});
+
+		if (config['question-and-answer'].makeDefault === 'on') {
+			$('.composer-submit').attr('data-action', 'post').html('<i class="fa fa-fw fa-question-circle"></i> 提问</a>');
+			$(window).one('action:composer.topics.post', function(ev, data) {
+				callToggleQuestion(data.data.tid);
+			});
+		}
 	});
 
 	function addHandlers() {
@@ -37,7 +49,7 @@ $('document').ready(function() {
 	}
 
 	function toggleQuestionStatus() {
-		var tid = ajaxify.variables.get('topic_id');
+		var tid = ajaxify.data.tid;
 		callToggleQuestion(tid);
 	}
 
@@ -49,7 +61,7 @@ $('document').ready(function() {
 	}
 
 	function toggleSolved() {
-		var tid = ajaxify.variables.get('topic_id');
+		var tid = ajaxify.data.tid;
 		socket.emit('plugins.QandA.toggleSolved', {tid: tid}, function(err, data) {
 			app.alertSuccess(data.isSolved ? '已标记此提问为已解决' : '已标记此提问为未解决');
 			ajaxify.refresh();
